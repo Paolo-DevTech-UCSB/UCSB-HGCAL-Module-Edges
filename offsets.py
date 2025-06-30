@@ -283,8 +283,9 @@ def Main(Xoff, Yoff, ThetaOff):
     else:
         S6 = 'Unknown'
 
-    print(S1, S2, S3, S4, S5, S6)
-
+    print(S1, S2, S3, S4, S5, S6) 
+    return S1, S2, S3, S4, S5, S6
+    
     #print(v1_g)
     
-Main(0,0.080,0.000)
+#Main(-0.2,-0.1,0.500)

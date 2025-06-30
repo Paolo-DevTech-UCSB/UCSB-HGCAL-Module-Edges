@@ -284,7 +284,8 @@ def Main(Xoff, Yoff, ThetaOff):
         S6 = 'Unknown'
 
     print(S1, S2, S3, S4, S5, S6)
+    #print(type(S1), type(S2), type(S3), type(S4), type(S5), type(S6))
+    return(S1, S2, S3, S4, S5, S6);
 
-    #print(v1_g)
     
-Main(0,0,0.000)
+#Main(0,0,0.800)

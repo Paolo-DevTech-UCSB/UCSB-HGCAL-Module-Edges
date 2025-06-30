@@ -11,14 +11,14 @@ import offsets as test
 
 # Define parameter ranges
 #angles =[1, 0.5, 0.25, 0.125, 0.0625, 0.03125, 0.015625, 0.00781, 0.0039, 0.00195, 0, 0, -0.00195, -0.0039, -0.00781, -0.015625, -0.03125, -0.0625, -0.125, -0.25, -0.5, -1]
-angles = [0.5, 0.25, 0.125, 0.0625, 0.03125, 0.015625, 0.00781, 0.0039, 0.00195, 0]
+angles = [0.7, 0.5, 0.35, 0.25, 0.125, 0.0625, 0.03125, 0.015625, 0.00781, 0]
 #xoffs = [1, 0.5, 0.25, 0.125, 0.0625, 0.03125, 0.015625, 0.00781, 0.0039, 0.00195, 0, 0, -0.00195, -0.0039, -0.00781, -0.015625, -0.03125, -0.0625, -0.125, -0.25, -0.5, -1] # mm
 #yoffs = [1, 0.5, 0.25, 0.125, 0.0625, 0.03125, 0.015625, 0.00781, 0.0039, 0.00195, 0, 0, -0.00195, -0.0039, -0.00781, -0.015625, -0.03125, -0.0625, -0.125, -0.25, -0.5, -1] # mm
 
 
 #angles = np.linspace(1, -1, 22)  # Keeping angles range intact
-xoffs = np.linspace(-0.3, 0.3, 5)  # More points in the -1 to 1 range
-yoffs = np.linspace(-0.3, 0.3, 5)  # More points in the -1 to 1 range
+xoffs = np.linspace(-0.5, 0.5, 20)  # More points in the -1 to 1 range
+yoffs = np.linspace(-0.5, 0.5, 20)  # More points in the -1 to 1 range
 
 
 # Dictionary to store discrete color values (RGB) for each angle
@@ -35,7 +35,17 @@ for ai, angle in enumerate(angles):
 
     for xi, xoff in enumerate(xoffs):
         for yi, yoff in enumerate(yoffs):
-            redcorners, yellowcorners = test.PlotReport(xoff, yoff, angle, False)
+            
+            S1, S2, S3, S4, S5, S6 = test.Main(xoff, yoff, angle)
+            if S1 == 'Red' or S2 == 'Red' or S3 == 'Red' or S4 == 'Red' or S5 == 'Red' or S6 == 'Red':
+                redcorners = 1;
+            else:
+                redcorners = 0; 
+            
+            if S1 == 'Yellow' or S2 == 'Yellow' or S3 == 'Yellow' or S4 == 'Yellow' or S5 == 'Yellow' or S6 == 'Yellow':
+                yellowcorners = 1;
+            else:
+                yellowcorners = 0;
 
             if redcorners > 0:  # Full failures
                 failure_data[angle][xi, yi] = [1, 0, 0]  # Red
