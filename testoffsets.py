@@ -287,4 +287,4 @@ def Main(Xoff, Yoff, ThetaOff):
 
     #print(v1_g)
     
-Main(0,0.080,0.000)
+Main(0,0,0.000)
