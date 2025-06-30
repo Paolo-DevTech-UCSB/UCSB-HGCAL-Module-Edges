@@ -6,9 +6,12 @@ By: Paolo Jordano
 """
 
 """
+    Q&A
+
 Q.1: What is the default distance between center locating pins in the cassette?
     A: 166.94 is the Nominal Baseplate Width, + the Nominal Gap width should be 0.700 so....
     167.64 is Baseplate width + gap. (Theoretically this is the same distance from one center hole to another)
+    this number appies for both HXB and baseplate
 
 Q.2: Is Susanne's Gap calculation including the tolerance of the hexaboard width?
     A: YES, In a world where X, Y, and Theta are all zero (the Control) and the Tolerance is the Independent variable.
@@ -16,40 +19,30 @@ Q.2: Is Susanne's Gap calculation including the tolerance of the hexaboard width
 Q.2b: What does this mean for how we treat the purple, yellow, and red envelopes?
     Lets Call the 700um gap the Theoretical Gap, and lets call the 487um the "Gap left for offsets"
     The purple envelope should be the nominal + tolerance Edge location -"Gap left for Offsets"/2
-    PURPLE == ((166.79 + 0.363)/2) - (243.5)
+
+    Nominal Hexaboard Width: 166.79
+    Nominal RT Hexaboard GAP: 0.850um
+    Nominal RT CenterPin_Distance = (166.79 + 0.850) = 167.64             167.64 = 
+    RT Middle Line = CenterPin_distance/2 = 83.82
+
+    This is what we've been calling HXB 50% gap : 83.82
+
+    Minimum Gap At RT = 487um
+    Min Half Gap RT = 243.5um
+
+    Maximum Extension of Hexaboard under the Influence of the hexaboard tolerances:
+    83.82 - 0.2435 = 83.5765
+
+    this is what I've been calling HXB 0% gap :: 83.5765
+
+    Which makes the opposite 100 % :: 84.0635    
+    83.82 + 0.2435 = 84.0635
+    
 Q.2c: What is the proper interpretation of  "50% of the gap"?
-    A: This should mean 50% of the "gap left for offsets" or 487/2 = 243.5
+    A: Midpoint between two centerpins on the cassette.
 
-1.The Nominal Apothem of a hexaboard is 83.47
-2.The Measured Value is lower, but is not being used becuase
-    a. there are small parts that protrude past the edge, (artifacts created from cutting out the PCB)
-    b. By Adopting 83.47 instead of 83.40, (We are being MORE conservative/careful)
-3.We add 0.05 to that value to account for the 0.05mm of tolerance. (Also being MORE conservtive/careful)
-4.Radius is Calculated From that Number: Radius = (83.52/np.sqrt(3))
-
-The Envelopes, 
-            -50% Gap     0% Gap      50% Gap     100% Gap
-                |   Purple  |   Green   |  Yellow   |   Red    |
-The purpose of these envelopes is the calssify each corner into these four classes
-
-Purple is just "Edge Location" - Gap/2. However There are a few choices within that definition:
-    1. Are we using 83.40 or 83.47 for the "Edge Location"
-    2. is the tolerance for "Edge Location" 0.05mm, 0.013mm, or both: 0.063mm
-        3 * 2, Gives us 6 different possibilities for what "Edge Location" is. 
-    3. for Gap, we could use the Warm or Cold Gap.
-        3 * 2 * 2 gives 12 different possibilities for the Purple Envelope. 
-
-
-The Green Edge is the easiest, By Definition, It is NOT     purple, yellow, and red. 
-    1.    Purple Envelope < Green < Yellow Envelope
-
-The Yellow Envelope also follows similar rules to the Purple Envelope. "Edge Location" + Gap/2
-    1.  Are we using 83.40 or 83.47 for the "Edge Location"
-    2. is the tolerance for "Edge Location" 0.05mm, 0.013mm, or both: 0.063mm
-    3. for Gap, we could use the Warm or Cold Gap.
-
-The Red Envelope is the same as Yellow except it's Edge Loco + Gap. no term multiplyed by 1/2. 
-
+Q.3 Why doesnt the Gap grow when the environement goes to cold?
+    A: you forget the Cassete itself, it also moves. Use the Warm Gap to avoid confusion. 
 
 
 """
@@ -60,39 +53,41 @@ import math
 """Establishing the Nominals, Tolerances, and Tiling Conditions of the Modules and Casstte."""
 #Casstte Gap Size at Operating and Room Tempurature (mm);
     #from Susanne Kyre's 6/24/25 UCSB MAC group meeting slides:
-ColdGap = 0.394;
+#Minimum Gap at Rt
 WarmGap = 0.487;
+#Minimum Half Gap at RT:
+HalfGap = WarmGap/2;
 
-#Hexagon Size and and Tolerance
-"""Definition; Apothem: The line segment from the center of the hexagon to the midpoint of any side."""
-# Apothem : r, Nominal Hexaboard Value: 83.47 
-# From My Own measurements; Actual Value for Hexaboard Apothem r: 
-#   PRESERIES HDF avg: 83.37086806
-#   PRESERIES LDF avg: 83.39973333
-#   PRESERIES LD5 avg: 83.381375
-r = 83.46999999
+#Hexagon Size and Gap Size
+w = 166.79
+w_t = 0.850
+w_naut = w_t + w
+Env_Yellow = w_naut/2
+Env_Purple = Env_Yellow - HalfGap
+Env_Red    = Env_Yellow + HalfGap
 
-#"Apothem" Tolerance
-r_t = 0.05 
+#CLean This UP VVVVVVVVVVVVVVVVVVVVVVV
 
-#Nominal "Apothem" + Tolerance   ~83.52
-r_naut = r + r_t 
-
-# Circumcircle Radius -->  cos(30) = adj/hpt    hpt = adj/cos(30deg)  
+# Circumcircle Radius (@edge of tolerance) -->  cos(30) = adj/hpt    hpt = adj/cos(30deg)  
 cr = r_naut/np.cos(0.523599)
 R = 2*cr
 
 # Slope of a hexagons sides that arent parallel to an axis:
 m = np.sqrt(3);
 
+#print("Apothem,"","","","",)
+
+
 #Defining our Grading Envelopes
-    # r_o is the Purple Envelope, r_i is the yellow envelope, and r_d is the red envelope. 
+# Apothem : r, Nominal Hexaboard Value: 83.395
+r = 83.394999999
+
     #green is by definition, not the other 3. 
-r_o = cr - WarmGap/2; #~83.2765   Nominal - 50% Gap
-r_i = cr + WarmGap/2; #~83.7635   Nominal + 50% Gap
-r_d = cr + WarmGap;   #~84.007    Nominal + 100% Gap
+r_p = cr - WarmGap/2; #~83.2765   Nominal - 50% Gap
+r_y = cr + WarmGap/2; #~83.7635   Nominal + 50% Gap
+r_r = cr + WarmGap;   #~84.007    Nominal + 100% Gap
     
-#print(r_o, r_i, r_d)    
+#print(r_p, r_y, r_r)    
 
 #Main:
 #Takes 3 Offsets as Inputs and Outputs the Status of Corners on a hexabaord. 
@@ -121,8 +116,8 @@ def Main(Xoff, Yoff, ThetaOff):
 
     # Checking the coordinate values of the verticies against the purple envelope.
         # y < 83.2765
-    if v1[1] <= r_o:
-        if v1[1] <= (m*v1[0] + r_o*2):
+    if v1[1] <= r_p:
+        if v1[1] <= (m*v1[0] + r_p*2):
             v1_p = True;
         else:
             v1_p = False;
@@ -131,8 +126,8 @@ def Main(Xoff, Yoff, ThetaOff):
         
         
         
-    if v2[1] <= r_o:
-        if v2[1] <= (-m*v2[0] + r_o*2):
+    if v2[1] <= r_p:
+        if v2[1] <= (-m*v2[0] + r_p*2):
             v2_p = True;
         else: 
             v2_p = False;
@@ -141,8 +136,8 @@ def Main(Xoff, Yoff, ThetaOff):
         
         
         
-    if v3[1] <= (-m*v3[0] + r_o*2):
-        if v3[1] >= (m*v3[0] - r_o*2):
+    if v3[1] <= (-m*v3[0] + r_p*2):
+        if v3[1] >= (m*v3[0] - r_p*2):
             v3_p = True;
         else: 
             v3_p = False;
@@ -151,8 +146,8 @@ def Main(Xoff, Yoff, ThetaOff):
     
     
     
-    if v4[1] >= -r_o:
-        if v4[1] >= (m*v4[0] - r_o*2):
+    if v4[1] >= -r_p:
+        if v4[1] >= (m*v4[0] - r_p*2):
             v4_p = True;
         else: 
             v4_p = False;
@@ -161,8 +156,8 @@ def Main(Xoff, Yoff, ThetaOff):
         
         
         
-    if v5[1] >= -r_o:
-        if v5[1] >= (-m*v5[0] - r_o*2):
+    if v5[1] >= -r_p:
+        if v5[1] >= (-m*v5[0] - r_p*2):
             v5_p = True;
         else: 
             v5_p = False;
@@ -171,8 +166,8 @@ def Main(Xoff, Yoff, ThetaOff):
         
         
         
-    if v6[1] >= (-m*v6[0] - r_o*2):
-        if v6[1] <= (m*v6[0] + r_o*2):
+    if v6[1] >= (-m*v6[0] - r_p*2):
+        if v6[1] <= (m*v6[0] + r_p*2):
             v6_p = True;
         else: 
             v6_p = False;
@@ -196,8 +191,8 @@ def Main(Xoff, Yoff, ThetaOff):
             v1_y = False;
             v1_r = False;
 
-        if v1[1] <= r_i:
-            if v1[1] <= (m*v1[0] + r_i*2):
+        if v1[1] <= r_y:
+            if v1[1] <= (m*v1[0] + r_y*2):
                 v1_y = True;
         else: 
             v1_y = False;
@@ -217,8 +212,8 @@ def Main(Xoff, Yoff, ThetaOff):
             v2_r = False;
     else: 
         v2_g = False;
-        if v2[1] <= r_i:
-            if v2[1] <= (-m*v2[0] + r_i*2):
+        if v2[1] <= r_y:
+            if v2[1] <= (-m*v2[0] + r_y*2):
                 v2_y = True;
                 v2_r = False;
         else: 
@@ -226,8 +221,8 @@ def Main(Xoff, Yoff, ThetaOff):
             v2_r = True;
                 
                 
-    #print(v3[1] , (-m*v3[0] + r_i*2))
-    #print(v3[1] , (m*v3[0] - r_i*2))
+    #print(v3[1] , (-m*v3[0] + r_y*2))
+    #print(v3[1] , (m*v3[0] - r_y*2))
     
     if v3[1] <= (-m*v3[0] + r*2):
         if v3[1] >= (m*v3[0] - r*2):
@@ -240,8 +235,8 @@ def Main(Xoff, Yoff, ThetaOff):
             v3_r = False;
     else: 
         v3_g = False;
-        if v3[1] <= (-m*v3[0] + r_i*2):
-            if v3[1] >= (m*v3[0] - r_i*2):
+        if v3[1] <= (-m*v3[0] + r_y*2):
+            if v3[1] >= (m*v3[0] - r_y*2):
                 v3_y = True;
                 v3_r = False;
         else: 
@@ -260,8 +255,8 @@ def Main(Xoff, Yoff, ThetaOff):
             v4_r = False;
 
 
-    if v4[1] >= -r_i:
-        if v4[1] >= (m*v4[0] - r_i*2):
+    if v4[1] >= -r_y:
+        if v4[1] >= (m*v4[0] - r_y*2):
             v4_y = True;
             v4_r = False;
     else: 
@@ -281,8 +276,8 @@ def Main(Xoff, Yoff, ThetaOff):
             v5_r = False;
     else: 
         v5_g = False;
-        if v5[1] >= -r_i:
-            if v5[1] >= (-m*v5[0] - r_i*2):
+        if v5[1] >= -r_y:
+            if v5[1] >= (-m*v5[0] - r_y*2):
                 v5_y = True;
                 v5_r = False;
         else: 
@@ -302,8 +297,8 @@ def Main(Xoff, Yoff, ThetaOff):
             v6_r = False;
     else: 
         v6_g = False;
-        if v6[1] >= (-m*v6[0] - r_i*2):
-            if v6[1] <= (m*v6[0] + r_i*2):
+        if v6[1] >= (-m*v6[0] - r_y*2):
+            if v6[1] <= (m*v6[0] + r_y*2):
                 v6_y = True;
                 v6_r = False;
         else: 
