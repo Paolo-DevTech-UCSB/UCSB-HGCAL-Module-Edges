@@ -1,6 +1,8 @@
 # UCSB-HGCAL-Module-Edges
 A geometrical tool for the placement and tiling mechanics of the HGCAL Modules and Cassette
-    By Paolo Jordano, Sussanne Kyre
+
+By Paolo Jordano, Sussanne Kyre
+
 Explaination:
     (M.O.) Reduce Module Rejection from HGCAL MACs
     By Assigning The Modules with This Colorgrading system, We Introduce a means of finding the tilability of badly placed modules.
@@ -9,16 +11,12 @@ Explaination:
             Yellow Corners can only be installed next to purple corners. 
 
 The Envelopes:
-_______________________________________________________
-|   -50% Gap     0% Gap      50% Gap     100% Gap       |
-|        |   Purple  |   Green   |  Yellow   |   Red    |
-________________________________________________________
+        |   -50% Gap     0% Gap      50% Gap     100% Gap       |
+        |        |   Purple  |   Green   |  Yellow   |   Red    |
+
 
 
 Part 1: Offsets: offsets.py 
-A Hexaboard Placement Analysis Tool
-By: Paolo Jordano
-original creation date: 6/24/2025
 
     Summary: 
         1. Establish Tolerance and Nominal Values of Hexaboard
@@ -29,15 +27,10 @@ original creation date: 6/24/2025
 
 Part 2: OffsetsController.py
  Discription:
-    A framework for testing large datasets and drawing conclusions. 
-    OffsetController contains no geometery, 
-    It is Just for displaying, reading, and organizing data. 
-
-`   Summary: 
-        1. Recives a set of offsets from input, requests Offsets returns the colorgrade of the hexagons verticies.
+    Summary: 
+        1. Recives a set of offsets from input, requests Offsets.py returns the colorgrade of the hexagons verticies.
         2. Organizes Data into Visualizations.
-
-
+    
 Q&A
 
 Q.1: What is the default distance between center locating pins in the cassette?
