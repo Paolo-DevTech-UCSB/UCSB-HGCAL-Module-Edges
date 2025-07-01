@@ -17,8 +17,8 @@ angles = [0.7, 0.5, 0.35, 0.25, 0.125, 0.0625, 0.03125, 0.015625, 0.00781, 0]
 
 
 #angles = np.linspace(1, -1, 22)  # Keeping angles range intact
-xoffs = np.linspace(-0.5, 0.5, 20)  # More points in the -1 to 1 range
-yoffs = np.linspace(-0.5, 0.5, 20)  # More points in the -1 to 1 range
+xoffs = np.linspace(-0.5, 0.5, 40)  # More points in the -1 to 1 range
+yoffs = np.linspace(-0.5, 0.5, 40)  # More points in the -1 to 1 range
 
 
 # Dictionary to store discrete color values (RGB) for each angle

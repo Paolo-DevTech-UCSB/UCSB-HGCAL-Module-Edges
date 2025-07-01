@@ -5,85 +5,31 @@ By: Paolo Jordano
 6/24/2025
 """
 
-"""
-    Q&A
-
-Q.1: What is the default distance between center locating pins in the cassette?
-    A: 166.94 is the Nominal Baseplate Width, + the Nominal Gap width should be 0.700 so....
-    167.64 is Baseplate width + gap. (Theoretically this is the same distance from one center hole to another)
-    this number appies for both HXB and baseplate
-
-Q.2: Is Susanne's Gap calculation including the tolerance of the hexaboard width?
-    A: YES, In a world where X, Y, and Theta are all zero (the Control) and the Tolerance is the Independent variable.
-    The HXB Gap would have a minimum of 487um, and a max of 850um
-Q.2b: What does this mean for how we treat the purple, yellow, and red envelopes?
-    Lets Call the 700um gap the Theoretical Gap, and lets call the 487um the "Gap left for offsets"
-    The purple envelope should be the nominal + tolerance Edge location -"Gap left for Offsets"/2
-
-    Nominal Hexaboard Width: 166.79
-    Nominal RT Hexaboard GAP: 0.850um
-    Nominal RT CenterPin_Distance = (166.79 + 0.850) = 167.64             167.64 = 
-    RT Middle Line = CenterPin_distance/2 = 83.82
-
-    This is what we've been calling HXB 50% gap : 83.82
-
-    Minimum Gap At RT = 487um
-    Min Half Gap RT = 243.5um
-
-    Maximum Extension of Hexaboard under the Influence of the hexaboard tolerances:
-    83.82 - 0.2435 = 83.5765
-
-    this is what I've been calling HXB 0% gap :: 83.5765
-
-    Which makes the opposite 100 % :: 84.0635    
-    83.82 + 0.2435 = 84.0635
-    
-Q.2c: What is the proper interpretation of  "50% of the gap"?
-    A: Midpoint between two centerpins on the cassette.
-
-Q.3 Why doesnt the Gap grow when the environement goes to cold?
-    A: you forget the Cassete itself, it also moves. Use the Warm Gap to avoid confusion. 
-
-
-"""
-
 import numpy as np
 import math
 
 """Establishing the Nominals, Tolerances, and Tiling Conditions of the Modules and Casstte."""
 #Casstte Gap Size at Operating and Room Tempurature (mm);
     #from Susanne Kyre's 6/24/25 UCSB MAC group meeting slides:
-#Minimum Gap at Rt
-WarmGap = 0.487;
-#Minimum Half Gap at RT:
-HalfGap = WarmGap/2;
 
-#Hexagon Size and Gap Size
-w = 166.79
-w_t = 0.850
-w_naut = w_t + w
-Env_Yellow = w_naut/2
-Env_Purple = Env_Yellow - HalfGap
-Env_Red = Env_Yellow + HalfGap
-    #green is by definition, not the other 3. 
-r_p = Env_Purple;
-r_y = Env_Yellow;
-r_r = Env_Red;  
-
-# MAX Tolerance/Min Gap Hexabaord = Purple Envelope 
-
-# Circumcircle Radius OF MAX Tolerance/Min Gap Hexaboard (@edge of tolerance) -->  cos(30) = adj/hpt    hpt = adj/cos(30deg)  
-cr = Env_Purple/np.cos(0.523599)
-# Corner to Corner Width
-R = 2*cr
-#Slope of the sides of a hexagon
-m = np.sqrt(3);
+WarmGap = 0.487;                #Minimum Gap at Rt
+HalfGap = WarmGap/2;            #Minimum Half Gap at RT:
+w = 166.79                      #Nominal Width of a Hexaboard      + It is also possible to use the Baseplate dimestions to find this number
+w_t = 0.850                     #Nominal Hexaboard Gap
+w_naut = w_t + w                #Nominal Distance Between Center Pins on Cassette
+Env_Yellow = w_naut/2           #Yellow Envelope, the Midpoint between two Center Pins on Cassette
+Env_Purple = Env_Yellow - HalfGap   #Purple Envelope, Yellow envelope - Minimum Half Gap at RT
+Env_Red = Env_Yellow + HalfGap      #Red Envelopem, Yellow envelope + Minimum Half Gap at RT
+r_p = Env_Purple; r_y = Env_Yellow; 
+r_r = Env_Red;                      #Redefining Envelopes to Short Variable Names
+cr = Env_Purple/np.cos(0.523599)    # Circumcircle Radius of Purple envelope,  hypt = adj/cos(30deg) 
+R = 2*cr                            # Corner to Corner Width,  2 * Radius
+m = np.sqrt(3);                     # Slope of the sides of a hexagon
 
 def Main(Xoff, Yoff, ThetaOff):
     AngleOff = ThetaOff;
     
     #Establishing Polar Coorinates for Each Corner, Adding Polar Offsets
-    #Using R: Hypotenuse of a a hexagon with the Apothem of 83.47 + 0.05
     v1_o = [cr, 120 + AngleOff];
     v2_o = [cr, 60 + AngleOff];
     v3_o = [cr, 0  + AngleOff];
@@ -104,7 +50,7 @@ def Main(Xoff, Yoff, ThetaOff):
     v1_y= False; v2_y= False; v3_y= False; v4_y= False; v5_y= False; v6_y = False;
     v1_r= False; v2_r= False; v3_r= False; v4_r= False; v5_r= False; v6_r = False; 
 
-    #New Folded Approach:  Reds First
+    #Check Each Verticie for Its location with respect to 3 established Envelopes, assign a colorgrade
     #V1 - Top Left
     if v1[1] <= r_r and v1[1] <= (m*v1[0] + r_r*2):
         v1_r = False;
@@ -283,6 +229,7 @@ def Main(Xoff, Yoff, ThetaOff):
     else:
         S6 = 'Unknown'
 
+    #Return the Colorgrade for each of the 6 Verticies. 
     print(S1, S2, S3, S4, S5, S6) 
     return S1, S2, S3, S4, S5, S6
     
