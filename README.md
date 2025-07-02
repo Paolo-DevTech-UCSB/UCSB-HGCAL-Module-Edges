@@ -36,13 +36,13 @@ Q&A
 Q.1: What is the default distance between center locating pins in the cassette?
     A: 166.94 is the Nominal Baseplate Width, + the Nominal Gap width should be 0.700 so....
     167.64 is Baseplate width + gap. (Theoretically this is the same distance from one center hole to another)
-    this number appies for both HXB and baseplate
+    this number can be calculated from both HXB and baseplate (gap + width).
 
 Q.2: Is Susanne's Gap calculation including the tolerance of the hexaboard width?
     A: YES, In a world where X, Y, and Theta are all zero (the Control) and the Tolerance is the Independent variable.
     The HXB Gap would have a minimum of 487um, and a max of 850um
 Q.2b: What does this mean for how we treat the purple, yellow, and red envelopes?
-    Lets Call the 700um gap the Theoretical Gap, and lets call the 487um the "Gap left for offsets"
+    Lets Call the 700um gap the Theoretical Gap, and lets call the 487um the "Gap left for offsets" (or "Gap Left after effects of all tolerances")
     The purple envelope should be the nominal + tolerance Edge location -"Gap left for Offsets"/2
 
     Nominal Hexaboard Width: 166.79
