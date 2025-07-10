@@ -56,8 +56,8 @@ def Main(Xoff, Yoff, ThetaOff):
         else:
             vertex_colors.append('Unknown')
 
-    print(*vertex_colors)
+    #print(*vertex_colors)
     return tuple(vertex_colors)
 
 # 🧪 Example Usage
-Main(-0.2, -0.1, 0.500)
+#Main(-0.2, -0.1, 0.500)

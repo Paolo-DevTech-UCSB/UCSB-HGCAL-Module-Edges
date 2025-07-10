@@ -62,7 +62,7 @@ def Main(Xoff, Yoff, ThetaOff):
         else:
             vertex_colors.append('Unknown')
 
-    print(*vertex_colors)
+    #print(*vertex_colors)
     return tuple(vertex_colors)
 
 # Example usage
