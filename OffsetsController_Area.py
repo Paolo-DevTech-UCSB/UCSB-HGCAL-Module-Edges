@@ -7,13 +7,12 @@ Created on Thu May 15 12:09:43 2025
 import numpy as np
 import matplotlib.pyplot as plt
 from collections import defaultdict
-import offsets_RongShyeng as test
+import offsets_basic_sensor as test
 
 # Define parameter ranges
 #angles =[1, 0.5, 0.25, 0.125, 0.0625, 0.03125, 0.015625, 0.00781, 0.0039, 0.00195, 0, 0, -0.00195, -0.0039, -0.00781, -0.015625, -0.03125, -0.0625, -0.125, -0.25, -0.5, -1]
 #angles = [0.7, 0.5, 0.35, 0.25, 0.125, 0.0625, 0.03125, 0.015625, 0.00781, 0]
-#angles = [0.0, 0.00195, 0.0039, 0.0078125, 0.0156, 0.03125, 0.0625, 0.1250, 0.250, 0.5]
-angles = [0.0, 0.002, 0.008, 0.016, 0.032, 0.04, 0.064, 0.1, 0.2, 0.5]
+angles = [0.0, 0.00195, 0.0039, 0.0078125, 0.0156, 0.03125, 0.0625, 0.1250, 0.250, 0.5]
 #xoffs = [1, 0.5, 0.25, 0.125, 0.0625, 0.03125, 0.015625, 0.00781, 0.0039, 0.00195, 0, 0, -0.00195, -0.0039, -0.00781, -0.015625, -0.03125, -0.0625, -0.125, -0.25, -0.5, -1] # mm
 #yoffs = [1, 0.5, 0.25, 0.125, 0.0625, 0.03125, 0.015625, 0.00781, 0.0039, 0.00195, 0, 0, -0.00195, -0.0039, -0.00781, -0.015625, -0.03125, -0.0625, -0.125, -0.25, -0.5, -1] # mm
 
@@ -70,9 +69,49 @@ for ai, angle in enumerate(angles):
     zero_counts[angle] = zero_counter  # Store zero-count per angle
 
 
+# Store area values per color per angle
+area_stats = {}
 
+# Calculate area per cell
+dx = xoffs[1] - xoffs[0]
+dy = yoffs[1] - yoffs[0]
+cell_area = dx * dy
 
+for angle in angles:
+    red_area = 0
+    yellow_area = 0
+    green_area = 0
 
+    grid = failure_data[angle]
+    for xi in range(len(xoffs)):
+        for yi in range(len(yoffs)):
+            r, g, b = grid[xi, yi]
+            if r == 1 and g == 0 and b == 0:
+                red_area += cell_area
+            elif r == 1 and g == 1 and b == 0:
+                yellow_area += cell_area
+            elif r == 0 and g == 1 and b == 0:
+                green_area += cell_area
+
+    area_stats[angle] = {
+        'Red': red_area,
+        'Yellow': yellow_area,
+        'Green': green_area
+    }
+
+# Sum of color areas across all angles
+total_color_areas = {'Red': 0, 'Yellow': 0, 'Green': 0}
+
+for stats in area_stats.values():
+    for color in total_color_areas:
+        total_color_areas[color] += stats[color]
+
+# Calculate percentage breakdown across all angles
+total_all = sum(total_color_areas.values())
+print("\n🌈 Total Area by Color Across All Angles:")
+for color in ['Red', 'Yellow', 'Green']:
+    pct = (total_color_areas[color] / total_all) * 100
+    print(f"{color}: {total_color_areas[color]:.4f} units ({pct:.2f}%)")
 
 # Create subplots for each angle
 fig, axes = plt.subplots(2, 5, figsize=(15, 6), constrained_layout=True)

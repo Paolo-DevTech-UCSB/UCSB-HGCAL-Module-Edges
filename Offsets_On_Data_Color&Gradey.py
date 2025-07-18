@@ -102,8 +102,21 @@ def process_file(filepath):
             1 for r in results if r['Red Sensor'] == 0 and r['Red Hexaboards'] == 0 
         )   
 
+        modules_with_any_yellow = sum(
+            1 for r in results if r['Yellow Sensor'] > 0 or r['Yellow Hexaboards'] > 0
+        )
+
+        sensor_red_modules = sum(1 for r in results if r['Red Sensor'] > 0)
+        hexaboard_red_modules = sum(1 for r in results if r['Red Hexaboards'] > 0)
+
+        yellow_module_pct = (modules_with_any_yellow / total_modules) * 100 if total_modules else 0
+
         no_red_pct = (modules_with_no_red / total_modules) * 100 if total_modules else 0
 
+        modules_with_any_red = sum(
+            1 for r in results if r['Red Sensor'] > 0 or r['Red Hexaboards'] > 0
+        )
+        any_red_pct = (modules_with_any_red / total_modules) * 100 if total_modules else 0
 
         print(f"\n📦 MODULE-LEVEL STATISTICS [{Version.upper()} VERSION]:")
         print(f"Sensor modules with ≥1 Red corner: {sensor_red_modules}")
@@ -120,8 +133,13 @@ def process_file(filepath):
         print(f"Percentage of modules with no red or yellow: {no_color_pct:.2f}%")
         print(f"Percentage of modules with no red: {no_red_pct:.2f}%")
         print(f"Total modules processed: {total_modules}")
+        print(f"Modules with any Yellow (sensor or hexaboard): {modules_with_any_yellow}")
+        print(f"Percentage of modules with any yellow: {yellow_module_pct:.2f}%")
+        print(f"Modules with any Red (sensor or hexaboard): {modules_with_any_red}")
+        print(f"Percentage of modules with any red: {any_red_pct:.2f}%")
 
         print(f"{Version} {sensor_red_modules} {sensor_red_pct:.2f} {yellow_sensor_modules} {yellow_sensor_pct:.2f} {hexaboard_red_modules} {hexaboard_red_pct:.2f} {yellow_hexaboard_modules} {yellow_hexaboard_pct:.2f} {modules_with_no_red_or_yellow} {no_color_pct:.2f} {total_modules}")
+        
         
     return color_counts_list
 

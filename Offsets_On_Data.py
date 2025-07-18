@@ -89,6 +89,22 @@ print(f"Modules with NO red (sensor & hexaboard): {modules_with_no_red}")
 print(f"Percentage of modules with no red: {no_red_pct:.2f}%")
 print(f"Total modules processed: {total_modules}")
 
+# === Full Color Percentage Summary ===
+combined_color_counts = Counter()
+
+for r in results:
+    for key in r:
+        # Extract color name from key (e.g., "Red Sensor" → "Red")
+        color = key.split()[0]
+        combined_color_counts[color] += r[key]
+
+total_corners = sum(combined_color_counts.values())
+
+print("\n🌈 FULL COLOR DISTRIBUTION (Sensors + Hexaboards):")
+for color in combined_color_counts:
+    pct = (combined_color_counts[color] / total_corners) * 100 if total_corners else 0
+    print(f"{color}: {combined_color_counts[color]} corners ({pct:.2f}%)")
+    
 # Example usage
 #results = process_file("input.txt")
 #print(results)
