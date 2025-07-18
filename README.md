@@ -1,9 +1,35 @@
 # UCSB-HGCAL-Module-Edges
+
 A geometrical tool for the placement and tiling mechanics of the HGCAL Modules and Cassette
 
 By Paolo Jordano, Sussanne Kyre
 
-Explaination:
+Welcome To UCSB HGCAL Module Edges, 
+
+This Code Serves Two Purposes:
+    Firstly, It is the home of python files which contain a new tolerance system, as imagined by Sussanne Kyre, Joe Incandela, and Paolo Jordano. 
+        These Files Can Be Found Here: UCSB-HGCAL-Module-Edges/Grading_Controllers/Grading_Code/..
+
+    Secondly, It contains a number of 'controller' python files, which are plotters and data processors that make use of
+    the tolerance python files.
+        These Files Can Be Found Here: UCSB-HGCAL-Module-Edges/Grading_Controllers/..
+
+
+-If you'd like to see the new tolerance system, Inspect the files offsets_HB.py and offsets_SR.py
+
+-If you'd like to see data on yeilds, copy the relevant assembly data into input.txt and run one of the 'On_Data' Controllers.
+
+
+
+
+
+
+
+
+
+Older Documentation:
+
+Explaination of Hexaboard Changes:
     (M.O.) Reduce Module Rejection from HGCAL MACs
     By Assigning The Modules with This Colorgrading system, We Introduce a means of finding the tilability of badly placed modules.
         Tiliability Rules: 
@@ -68,60 +94,3 @@ Q.2c: What is the proper interpretation of  "50% of the gap"?
 
 Q.3 Why doesnt the Gap grow when the environement goes to cold?
     A: you forget the Cassete itself, it also moves. Use the Warm Gap to avoid confusion. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-OverFlow Notes and Explainations:
-# From My Own measurements; Actual Value for Hexaboard Apothem r: 
-#   PRESERIES HDF avg: 83.37086806
-#   PRESERIES LDF avg: 83.39973333
-#   PRESERIES LD5 avg: 83.381375
-
-"""Definition; Apothem: The line segment from the center of the hexagon to the midpoint of any side."""
-
-    
-
-    PROCESS
-
-    
-Purple is just "Edge Location" - Gap/2. However There are a few choices within that definition:
-    1. Are we using 83.40 or 83.47 for the "Edge Location"
-    2. is the tolerance for "Edge Location" 0.05mm, 0.013mm, or both: 0.063mm
-        3 * 2, Gives us 6 different possibilities for what "Edge Location" is. 
-    3. for Gap, we could use the Warm or Cold Gap.
-        3 * 2 * 2 gives 12 different possibilities for the Purple Envelope. 
-
-The Green Edge is the easiest, By Definition, It is NOT     purple, yellow, and red. 
-    1.    Purple Envelope < Green < Yellow Envelope
-
-The Yellow Envelope also follows similar rules to the Purple Envelope. "Edge Location" + Gap/2
-    1.  Are we using 83.40 or 83.47 for the "Edge Location"
-    2. is the tolerance for "Edge Location" 0.05mm, 0.013mm, or both: 0.063mm
-    3. for Gap, we could use the Warm or Cold Gap.
-
-The Red Envelope is the same as Yellow except it's Edge Loco + Gap. no term multiplyed by 1/2. 
-
-               ( HXB Width + HXB Total Tolerance*(2 modules))/(2) + relative gap location
-    Yellow == ((166.79 + 0.363)/2)mm + (243.5)um       ''''
-    RED == ((166.79 + 0.363)/2)mm + (487)um            ''''

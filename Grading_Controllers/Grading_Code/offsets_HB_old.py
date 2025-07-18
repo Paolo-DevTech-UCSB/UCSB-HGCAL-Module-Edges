@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-OffsetsJoeLight - Hexaboard Classification using Rule-Based System
-Refactored by Copilot
+offsets_HB_old Hexaboard Grading Classification using old System
 """
 
 import numpy as np

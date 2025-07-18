@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-OffsetsJoeLight - Hexaboard Classification using Updated Rules
+Offsets_SR_old - Sensor Grading Classification using Old Rules
 """
 
 import numpy as np

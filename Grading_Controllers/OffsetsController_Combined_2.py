@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Dual-Grading Visualization of Hexaboard Corner Classifications
-@author: You
+Controller File:
+    Compares the 3D tolerance spaces of Old and New Mechanincal Grading Systems. 
+    Outputs Statistics in 2D slices of angle offsets. 
+@author: Paolo Jordano
 """
 
 import numpy as np

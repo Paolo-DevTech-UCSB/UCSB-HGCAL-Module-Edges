@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu May 15 12:09:43 2025
-
-@author: Admin
+Controller File:
+    Plots 3D Tolerance space of a given grading system, In 2D Slices of Angle Offsets.
+    ADDs a Black Outline/Box in the location of the Original Mechanical Sensor tolerances. 
+@author: Paolo Jordano
 """
 import numpy as np
 import matplotlib.pyplot as plt

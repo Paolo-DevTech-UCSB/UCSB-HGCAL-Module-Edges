@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-OffsetsJoeLight - A Hexaboard and Sensor Placement Analysis Tool
+Offsets_SR - A Sensor Tolerance Process
 By: Paolo Jordano
 6/24/2025
 """

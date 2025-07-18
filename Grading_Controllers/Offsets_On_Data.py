@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu May 15 12:09:43 2025
-
-@author: Admin
+Controller 'On Data' File:
+    Gives Statistics on New Mechanincal Grading System. 
+@author: Paolo Jordano
 """
 import numpy as np
 from collections import Counter

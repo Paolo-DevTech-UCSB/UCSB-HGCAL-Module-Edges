@@ -1,3 +1,9 @@
+"""
+Controller File:
+    Plots 3D Tolerance space of a given grading system. Unfinished. 
+@author: Paolo Jordano
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
