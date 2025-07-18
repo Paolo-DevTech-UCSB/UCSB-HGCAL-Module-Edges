@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-import offsets_RongShyeng_Sensor as test
+import offsets_SR_old as test
 
 # Parameter space (centers)
 angles = np.array([0.0, 0.00195, 0.0039, 0.0078125, 0.0156, 0.03125, 0.0625, 0.1250, 0.250, 0.5])

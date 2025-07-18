@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-import offsets as test  # Your hex failure classifier
+import offsets_HB as test  # Your hex failure classifier
 
 # Define original data ranges
 angles = [0.7, 0.5, 0.35, 0.25, 0.125, 0.0625, 0.03125, 0.015625, 0.00781, 0]

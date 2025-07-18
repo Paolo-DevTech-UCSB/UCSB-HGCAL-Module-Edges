@@ -9,8 +9,8 @@ import matplotlib.pyplot as plt
 from collections import defaultdict
 
 # Placeholder for dual grading systems — replace with actual modules
-import offsets_RongShyeng_Sensor as test_old
-import offsets_basic_sensor as test_new
+import offsets_SR_old as test_old
+import offsets_SR as test_new
 
 # --- Define parameter sweeps ---
 angles = [0.0, 0.00195, 0.0039, 0.0078125, 0.0156, 0.03125, 0.0625, 0.1250, 0.250, 0.5]
