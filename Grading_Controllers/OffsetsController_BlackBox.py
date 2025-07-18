@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from collections import defaultdict
 from matplotlib.patches import Rectangle
-import offsets_basic_sensor as test
+import Grading_Code.offsets_SR as test
 
 angles = [0.0, 0.002, 0.008, 0.016, 0.032, 0.04, 0.064, 0.1, 0.2, 0.5]
 xoffs = np.linspace(-0.5, 0.5, 100)

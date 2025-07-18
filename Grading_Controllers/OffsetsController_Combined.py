@@ -9,26 +9,26 @@ import matplotlib.pyplot as plt
 from collections import defaultdict
 
 # Placeholder for dual grading systems — replace with actual modules
-import offsets_SR_old as test_old
-import offsets_SR as test_new
+import Grading_Code.offsets_SR_old as test_old
+import Grading_Code.offsets_SR as test_new
 
 # --- Define parameter sweeps ---
 angles = [0.0, 0.00195, 0.0039, 0.0078125, 0.0156, 0.03125, 0.0625, 0.1250, 0.250, 0.5]
-xoffs = np.linspace(-0.5, 0.5, 50)
-yoffs = np.linspace(-0.5, 0.5, 50)
+xoffs = np.linspace(-0.5, 0.5, 100)
+yoffs = np.linspace(-0.5, 0.5, 100)
 
 # --- Define color blending logic ---
 def combine_colors(g1, g2):
     if g1 == 'Green' and g2 == 'Green':
         return [1, 1, 1]        # White
     elif g1 == 'Green' and g2 == 'Yellow':
-        return [0, 1, 1]        # Turqoise
+        return [1, 1, 0]        # Yellow
     elif g1 == 'Yellow' and g2 == 'Green':
         return [0, 1, 0]        # Green
     elif g1 == 'Yellow' and g2 == 'Yellow':
         return [1, 1, 0]        # Yellow
     elif 'Red' in [g1, g2] and 'Green' in [g1, g2]:
-        return [1, 0.5, 0]        # Yellow (or tune this to your liking)
+        return [1, 1, 0]        # Yellow (or tune this to your liking)
     elif 'Red' in [g1, g2] and 'Yellow' in [g1, g2]:
         return [1, 0.5, 0]      # Orange
     elif g1 == 'Red' and g2 == 'Red':
@@ -60,11 +60,9 @@ for ai, angle in enumerate(angles):
             for cf in color_flags:
                 if cf == [1, 0, 0]: final_color = cf; break    # Red
                 elif cf == [1, 0.5, 0]: final_color = cf       # Orange
-                elif cf == [1, 0.75, 1] and final_color == [1, 0.5, 0]: final_color = cf  #yellowish
                 elif cf == [1, 1, 0] and final_color not in [[1, 0.5, 0]]: final_color = cf  # Yellow
                 elif cf == [0, 1, 0] and final_color == [0, 1, 0]: continue  # Green stays unless upgraded
-                elif cf == [0, 1, 1] and final_color == [0, 1, 0]: final_color = cf           # Turq
-                elif cf == [1, 1, 1] and final_color == [0, 1, 1]: final_color = cf           # White
+                elif cf == [1, 1, 1] and final_color == [0, 1, 0]: final_color = cf           # White
 
             failure_data[angle][xi, yi] = final_color
             if final_color == [1, 1, 1]: zero_counter += 1

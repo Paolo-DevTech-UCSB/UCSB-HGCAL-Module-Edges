@@ -6,8 +6,8 @@ Created on Thu May 15 12:09:43 2025
 """
 import numpy as np
 from collections import Counter
-import offsets_HB as test
-import offsets_SR as test2 
+import Grading_Code.offsets_HB as test
+import Grading_Code.offsets_SR as test2 
 
 # Read tab-separated file
 def process_file(filepath):

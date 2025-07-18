@@ -7,7 +7,7 @@ Created on Thu May 15 12:09:43 2025
 import numpy as np
 import matplotlib.pyplot as plt
 from collections import defaultdict
-import offsets_HB_old as test
+import Grading_Code.offsets_HB_old as test
 
 # Define parameter ranges
 #angles =[1, 0.5, 0.25, 0.125, 0.0625, 0.03125, 0.015625, 0.00781, 0.0039, 0.00195, 0, 0, -0.00195, -0.0039, -0.00781, -0.015625, -0.03125, -0.0625, -0.125, -0.25, -0.5, -1]

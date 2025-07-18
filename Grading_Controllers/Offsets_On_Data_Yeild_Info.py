@@ -7,10 +7,10 @@ Created on Thu May 15 12:09:43 2025
 
 import numpy as np
 from collections import Counter
-import offsets_HB as test
-import offsets_SR as test2
-import offsets_HB_old as test_b
-import offsets_SR_old as test2_b
+import Grading_Code.offsets_HB as test
+import Grading_Code.offsets_SR as test2
+import Grading_Code.offsets_HB_old as test_b
+import Grading_Code.offsets_SR_old as test2_b
 
 def process_manual_data():
     Versions = ["new", "old"]
