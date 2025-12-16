@@ -235,4 +235,4 @@ def Main(Xoff, Yoff, ThetaOff):
     
     #print(v1_g)
     
-#Main(-0.2,-0.1,0.500)
+print(Main(-0.00001, 0, 0.000))

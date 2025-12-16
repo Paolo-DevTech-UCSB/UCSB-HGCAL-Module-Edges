@@ -65,4 +65,4 @@ def Main(Xoff, Yoff, ThetaOff):
     return tuple(vertex_colors)
 
 # Example usage
-#Main(-0.2, -0.1, 0.500)
+print(Main(-0.02, 0, 0.000))
